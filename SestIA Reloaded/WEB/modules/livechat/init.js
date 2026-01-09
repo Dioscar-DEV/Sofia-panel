@@ -472,7 +472,7 @@
 
         state.messages.forEach(msg => {
             // Separador de fecha
-            const msgDate = new Date(msg.created_at).toLocaleDateString();
+            const msgDate = formatDateVenezuela(msg.created_at);
             if (msgDate !== lastDate) {
                 const divider = document.createElement('div');
                 divider.className = 'date-divider';
@@ -505,7 +505,7 @@
         }
 
         // Metadatos (hora)
-        const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const time = formatTimeVenezuela(msg.created_at);
         contentHtml += `
             <div class="message-meta">
                 <span class="message-time">${time}</span>
@@ -678,7 +678,55 @@
     function formatTimestamp(value) {
         if (!value) return 'Sin registro';
         try {
-            return new Date(value).toLocaleString();
+            const date = new Date(value);
+            // Restar 4 horas para Venezuela (UTC-4)
+            date.setHours(date.getHours() - 4);
+            
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        } catch (err) {
+            return value;
+        }
+    }
+
+    function formatDateVenezuela(value) {
+        if (!value) return '';
+        try {
+            const date = new Date(value);
+            // Restar 4 horas para Venezuela (UTC-4)
+            date.setHours(date.getHours() - 4);
+            
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            
+            return `${day}/${month}/${year}`;
+        } catch (err) {
+            return value;
+        }
+    }
+
+    function formatTimeVenezuela(value) {
+        if (!value) return '';
+        try {
+            const date = new Date(value);
+            // Convertir a hora de Venezuela (UTC-4)
+            const utcHours = date.getUTCHours();
+            const utcMinutes = date.getUTCMinutes();
+            
+            // Restar 4 horas desde UTC
+            let hours = utcHours - 4;
+            if (hours < 0) hours += 24;
+            
+            const hoursStr = String(hours).padStart(2, '0');
+            const minutesStr = String(utcMinutes).padStart(2, '0');
+            
+            return `${hoursStr}:${minutesStr}`;
         } catch (err) {
             return value;
         }
