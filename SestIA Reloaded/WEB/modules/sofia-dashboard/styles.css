@@ -1,0 +1,74 @@
+/* Fondo para áreas de contenido */
+#sofia-dashboard-module .content-area {
+  position: relative;
+  min-height: 400px;
+  background: var(--fibex-blue-light);
+  border-radius: 18px;
+  box-shadow: 0 2px 8px 0 rgba(32,64,128,0.04);
+}
+/* ===============================================
+   Dashboard Sofía
+   Namespace: #sofia-dashboard-module
+   Respetar estándar CSS con namespace (ver CSS-STANDARDS.md)
+   =============================================== */
+
+#sofia-dashboard-module.sd { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; }
+
+#sofia-dashboard-module .sd-header { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+#sofia-dashboard-module .sd-title-block { display: grid; gap: 4px; }
+#sofia-dashboard-module .sd-kicker { margin: 0; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fibex-gray-medium); font-size: 12px; }
+#sofia-dashboard-module .sd-title { margin: 0; font-size: 22px; color: rgba(11, 23, 57, 0.72); }
+#sofia-dashboard-module .sd-subtitle { margin: 0; color: var(--fibex-blue-medium); }
+
+#sofia-dashboard-module .sd-actions { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+#sofia-dashboard-module .sd-field { display: grid; gap: 4px; font-size: 12px; color: var(--fibex-gray-medium); }
+#sofia-dashboard-module .sd-field select {
+  padding: 8px 10px;
+  border: 1px solid var(--fibex-blue);
+  border-radius: 8px;
+  background: var(--fibex-blue-light);
+  color: rgba(11, 23, 57, 0.72);
+}
+
+#sofia-dashboard-module .sd-btn { padding: 9px 14px; border-radius: 10px; border: 1px solid var(--fibex-blue); background: var(--fibex-blue-accent); color: var(--fibex-white); cursor: pointer; transition: all 0.2s; }
+#sofia-dashboard-module .sd-btn.primary { background: var(--fibex-blue); color: var(--fibex-white); border-color: var(--fibex-blue); }
+#sofia-dashboard-module .sd-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+
+#sofia-dashboard-module .sd-error { border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: 10px; background: rgba(239,68,68,0.08); }
+#sofia-dashboard-module .sd-loading { color: var(--muted); padding: 12px; }
+
+#sofia-dashboard-module .sd-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+#sofia-dashboard-module .sd-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  display: grid;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+}
+#sofia-dashboard-module .sd-card-label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+#sofia-dashboard-module .sd-card-value { font-size: 24px; font-weight: 700; color: var(--text); }
+#sofia-dashboard-module .sd-card-sub { color: var(--muted); font-size: 13px; }
+
+#sofia-dashboard-module .sd-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+#sofia-dashboard-module .sd-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
+#sofia-dashboard-module .sd-panel-header { display: flex; justify-content: space-between; align-items: center; }
+#sofia-dashboard-module .sd-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: rgba(59,130,246,0.12); color: var(--brand); font-weight: 600; font-size: 12px; }
+#sofia-dashboard-module .sd-chip.muted { background: rgba(100,116,139,0.12); color: var(--muted); }
+#sofia-dashboard-module .sd-chip.ok { background: rgba(16,185,129,0.15); color: var(--success); }
+
+#sofia-dashboard-module .sd-list { display: grid; gap: 10px; }
+#sofia-dashboard-module .sd-item { border: 1px solid var(--border); border-radius: 10px; padding: 10px; background: var(--panel); display: grid; gap: 4px; }
+#sofia-dashboard-module .sd-item-main { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+#sofia-dashboard-module .sd-item-meta { color: var(--muted); font-size: 12px; }
+#sofia-dashboard-module .sd-item-sub { color: var(--text); font-size: 13px; }
+#sofia-dashboard-module .sd-empty { text-align: center; color: var(--muted); padding: 12px; border: 1px dashed var(--border); border-radius: 10px; }
+
+#sofia-dashboard-module .sd-denied { padding: 32px; }
+#sofia-dashboard-module .hidden { display: none !important; }
+
+@media (max-width: 720px){
+  #sofia-dashboard-module.sd { padding: 0.75rem; }
+  #sofia-dashboard-module .sd-header { flex-direction: column; align-items: flex-start; }
+}

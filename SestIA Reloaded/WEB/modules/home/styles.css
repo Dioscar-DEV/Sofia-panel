@@ -1,0 +1,399 @@
+/* 1. Animación sutil en íconos al hacer hover */
+#home-module .module-card:hover .module-icon {
+  animation: icon-bounce 0.5s cubic-bezier(.4,0,.2,1);
+}
+@keyframes icon-bounce {
+  0% { transform: scale(1) rotate(0deg); }
+  30% { transform: scale(1.15) rotate(-8deg); }
+  60% { transform: scale(0.95) rotate(6deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* 2. Sombras suaves y elevación en hover */
+#home-module .module-card {
+  box-shadow: 0 2px 8px 0 rgba(32,64,128,0.04), 0 1.5px 6px 0 rgba(11,23,57,0.04);
+}
+#home-module .module-card:hover, #home-module .module-card:focus {
+  box-shadow: 0 8px 32px 0 rgba(11,23,57,0.13), 0 2px 8px 0 rgba(32,64,128,0.07);
+}
+
+/* 3. Indicador de módulo activo (agrega .active a la tarjeta activa) */
+#home-module .module-card.active {
+  border: 2.5px solid #0b1739;
+  box-shadow: 0 12px 36px 0 rgba(11,23,57,0.18), 0 2px 8px 0 rgba(32,64,128,0.10);
+  filter: brightness(1.08);
+}
+
+/* 4. Soporte básico para modo oscuro */
+@media (prefers-color-scheme: dark) {
+  #home-module .module-card {
+    background: linear-gradient(135deg, #1a2336 0%, #232b3e 100%);
+    color: #e6ecfa;
+    border: 1.5px solid #2d3957;
+  }
+  #home-module .module-card .module-info h3 {
+    color: #e6ecfa;
+  }
+  #home-module .module-card .module-info p {
+    color: #b6c6e6;
+  }
+  #home-module .module-card.active {
+    border-color: #4f7fff;
+  }
+}
+
+/* 5. Accesibilidad: focus visible y contraste */
+#home-module .module-card:focus {
+  outline: 3px solid #4f7fff;
+  outline-offset: 2px;
+  z-index: 3;
+}
+#home-module .module-card {
+  cursor: pointer;
+}
+
+/* 6. Microinteracciones: feedback visual al hacer clic */
+#home-module .module-card:active {
+  filter: brightness(0.98) saturate(1.1);
+  transform: scale(0.98);
+  transition: filter 0.1s, transform 0.1s;
+}
+/* Fondo para áreas de contenido */
+#home-module .content-area {
+  position: relative;
+  min-height: 400px;
+  background: var(--fibex-blue-light);
+  border-radius: 18px;
+  box-shadow: 0 2px 8px 0 rgba(32,64,128,0.04);
+}
+/* ===============================================
+   HOME MODULE - Pantalla de Inicio Mejorada
+   NAMESPACE: #home-module
+   =============================================== */
+
+#home-module.home-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 2rem;
+  animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Header mejorado con Tech Premium Glassmorphism */
+#home-module .home-header {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: linear-gradient(135deg, 
+    rgba(240, 245, 255, 0.9) 0%, 
+    rgba(168, 201, 255, 0.85) 50%, 
+    rgba(90, 142, 220, 0.9) 100%);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    0 4px 16px 0 rgba(11, 23, 57, 0.08),
+    0 1px 4px 0 rgba(11, 23, 57, 0.04);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInHeader 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Gradiente sutil en el borde inferior */
+#home-module .home-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(11, 23, 57, 0.2) 20%, 
+    rgba(59, 91, 167, 0.35) 50%, 
+    rgba(11, 23, 57, 0.2) 80%, 
+    transparent 100%);
+}
+
+@keyframes fadeInHeader {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#home-module .content-area {
+  background: var(--fibex-blue-light);
+  border-radius: 24px;
+}
+
+#home-module .home-header h2 {
+  margin: 0 0 12px 0;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  animation: fadeInText 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
+}
+
+#home-module .home-header p {
+  margin: 0;
+  color: rgba(11, 23, 57, 0.8);
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  animation: fadeInText 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s backwards;
+}
+
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Grid de módulos mejorado */
+#home-module .modules-grid {
+#home-module .module-card.active {
+  border: 2.5px solid var(--fibex-blue);
+}
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* Tarjetas de módulo con azul más claro y base para glossy */
+#home-module .module-card:hover {
+  border-color: var(--fibex-blue-accent);
+}
+/* Tarjetas de módulo minimalistas y menos saturadas */
+#home-module .module-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 24px;
+  border: 1px solid #dbeafe;
+#home-module .module-info h3 {
+  color: rgba(11, 23, 57, 0.92);
+  text-shadow: 0 1px 6px rgba(11,23,57,0.10), 0 1px 0 var(--fibex-white);
+}
+  border-radius: 20px;
+  text-decoration: none;
+  color: #0b1739;
+  background: linear-gradient(135deg, #dbe7f7 0%, #cddcf3 100%);
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+#home-module .module-info p {
+  color: var(--fibex-blue-medium);
+}
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto glossy/cristal al hacer hover */
+/* Efecto glossy animado: dos barras claras que se mueven al hacer hover */
+#home-module .module-card::after, #home-module .module-card::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  top: -40%;
+  left: -60%;
+  width: 60%;
+  height: 180%;
+  opacity: 0.18;
+  background: linear-gradient(120deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.1) 80%, rgba(255,255,255,0) 100%);
+  border-radius: 32px;
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #101624;
+    color: #e6ecfa;
+  }
+  #home-module .content-area {
+    background: #232b3e;
+  }
+  #home-module .module-card {
+    background: linear-gradient(135deg, #1a2336 0%, #232b3e 100%);
+    color: #e6ecfa;
+    border: 1.5px solid #2d3957;
+  }
+  #home-module .module-card .module-info h3 {
+    color: rgba(11, 23, 57, 0.92);
+    text-shadow: 0 1px 8px rgba(11,23,57,0.18), 0 1px 0 #232b3e;
+  }
+  #home-module .module-card .module-info p {
+    color: var(--fibex-gray-medium);
+  }
+  #home-module .module-card.active {
+    border-color: var(--fibex-blue-accent);
+  }
+}
+  z-index: 2;
+  transform: skewX(-20deg) translateX(0);
+  transition: opacity 0.3s, transform 0.7s cubic-bezier(.4,0,.2,1);
+}
+#home-module .module-card::before {
+  left: 40%;
+  opacity: 0.12;
+  width: 40%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.08) 80%, rgba(255,255,255,0) 100%);
+}
+
+
+#home-module .module-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #fff 0%, var(--brand-light) 100%);
+  opacity: 0.25;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+#home-module .module-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 32px 0 rgba(11,23,57,0.10);
+  border-color: #b6c6e6;
+  filter: brightness(1.04);
+}
+#home-module .module-card:hover::after {
+  opacity: 0.32;
+  transform: skewX(-20deg) translateX(120%);
+}
+#home-module .module-card:hover::before {
+  opacity: 0.22;
+  transform: skewX(-20deg) translateX(80%);
+}
+
+#home-module .module-card:hover::after {
+  opacity: 1;
+}
+
+#home-module .module-card:hover::before {
+  transform: scaleX(1);
+}
+
+#home-module .module-card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
+#home-module .module-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 100%);
+  color: #fff;
+  font-size: 32px;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+}
+
+#home-module .module-card:hover .module-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: var(--shadow-lg);
+}
+
+#home-module .module-info {
+  flex: 1;
+  width: 100%;
+}
+
+#home-module .module-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #3a4a6d;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 6px rgba(58,74,109,0.10), 0 1px 0 #fff;
+}
+@media (prefers-color-scheme: dark) {
+  #home-module .module-card .module-info h3 {
+    color: #7a8bb0;
+    text-shadow: 0 1px 8px rgba(58,74,109,0.18), 0 1px 0 #232b3e;
+  }
+}
+
+#home-module .module-info p {
+  margin: 0;
+  color: #3b5cb8;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #home-module.home-layout {
+    padding: 1.5rem 1rem;
+    gap: 24px;
+  }
+
+  #home-module .home-header {
+    padding: 1.5rem 1rem;
+  }
+
+  #home-module .home-header h2 {
+    font-size: 2rem;
+  }
+
+  #home-module .modules-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  #home-module .module-card {
+    padding: 20px;
+  }
+
+  #home-module .module-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  #home-module .home-header h2 {
+    font-size: 1.75rem;
+  }
+
+  #home-module .modules-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  #home-module .module-card {
+    flex-direction: row;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  #home-module .module-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  #home-module .module-info h3 {
+    font-size: 1.125rem;
+  }
+}

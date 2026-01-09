@@ -1,0 +1,107 @@
+{
+  "modules": [
+    {
+      "key": "home",
+      "moduleName": "HomeModule",
+      "script": "modules/home/init.js",
+      "view": "modules/home/view.html",
+      "label": "Inicio",
+      "roles": [],
+      "perms": ["home.view"],
+      "public": false,
+      "nav": { "group": "top", "order": 0, "show": false }
+    },
+    {
+      "key": "indice",
+      "moduleName": "IndiceModule",
+      "script": "modules/indice/init.js",
+      "view": "modules/indice/view.html",
+      "label": "Índice",
+      "roles": [],
+      "perms": ["indice.view"],
+      "public": false,
+      "nav": { "group": "dropdown", "order": 10, "show": true }
+    },
+    {
+      "key": "users",
+      "moduleName": "UsersModule",
+      "script": "modules/users/init.js",
+      "view": "modules/users/view.html",
+      "label": "Usuarios",
+      "roles": [],
+      "perms": ["users.manage"],
+      "public": false,
+      "nav": { "group": "dropdown", "order": 20, "show": true }
+    },
+    {
+      "key": "contacts",
+      "moduleName": "ContactsModule",
+      "script": "modules/contacts/init.js",
+      "view": "modules/contacts/view.html",
+      "label": "Contactos IA",
+      "roles": [],
+      "perms": ["agent.contacts.view"],
+      "public": false,
+      "nav": { "group": "dropdown", "order": 30, "show": true }
+    },
+    {
+      "key": "livechat",
+      "moduleName": "LivechatModule",
+      "script": "modules/livechat/init.js",
+      "view": "modules/livechat/view.html",
+      "label": "Livechat",
+      "roles": [],
+      "perms": ["agent.livechat.view"],
+      "public": false,
+      "nav": { "group": "dropdown", "order": 40, "show": true }
+    },
+    {
+      "key": "sofia-dashboard",
+      "moduleName": "SofiaDashboardModule",
+      "script": "modules/sofia-dashboard/init.js",
+      "view": "modules/sofia-dashboard/view.html",
+      "label": "Dashboard Sofía",
+      "description": "Métricas de pagos y reportes",
+      "roles": [],
+      "perms": ["dashboard.sofia.view"],
+      "public": false,
+      "nav": { "group": "dropdown", "order": 15, "show": true }
+    },
+    {
+      "key": "dashboard",
+      "moduleName": "DashboardModule",
+      "script": "modules/dashboard/init.js",
+      "view": "modules/dashboard/view.html",
+      "label": "Dashboard",
+      "description": "Panel de métricas generales del sistema",
+      "roles": [],
+      "perms": ["dashboard.view"],
+      "public": false,
+      "nav": { "group": "dropdown", "order": 12, "show": true }
+    },
+    {
+      "key": "whatsapp",
+      "moduleName": "WhatsAppModule",
+      "script": "modules/whatsapp/init.js",
+      "view": "modules/whatsapp/view.html",
+      "label": "WhatsApp Masivo",
+      "description": "Envío masivo de plantillas de WhatsApp Business",
+      "roles": [],
+      "perms": ["modules.whatsapp.view"],
+      "public": false,
+      "nav": { "group": "dropdown", "order": 50, "show": true }
+    },
+    {
+      "key": "reportes",
+      "moduleName": "ReportesModule",
+      "script": "modules/reportes/init.js",
+      "view": "modules/reportes/view.html",
+      "label": "Reportes",
+      "description": "Sistema de tickets y reportes",
+      "roles": [],
+      "perms": ["reportes.view"],
+      "public": false,
+      "nav": { "group": "dropdown", "order": 60, "show": true }
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+<link rel="stylesheet" href="modules/monitor-clientes/styles.css" />
+
+<section class="monitor-layout">
+  <!-- Header con KPIs -->
+  <div class="monitor-header">
+    <div class="header-title-section">
+      <h2>📊 Monitor de Clientes</h2>
+      <p class="header-subtitle">Sistema de triaje y asignación de casos</p>
+    </div>
+    
+    <div class="kpi-cards">
+      <div class="kpi-card">
+        <div class="kpi-icon">👥</div>
+        <div class="kpi-content">
+          <span class="kpi-label">Total Clientes</span>
+          <span class="kpi-value" id="kpi-total">0</span>
+        </div>
+      </div>
+      
+      <div class="kpi-card urgent">
+        <div class="kpi-icon">🚨</div>
+        <div class="kpi-content">
+          <span class="kpi-label">Urgencia Alta</span>
+          <span class="kpi-value" id="kpi-urgent">0</span>
+        </div>
+      </div>
+      
+      <div class="kpi-card unassigned">
+      <div class="content-area">
+        <!-- Filtros y Búsqueda -->
+        <div class="filters-section">
+          <div class="search-box">
+            <input 
+              type="text" 
+              id="search-input" 
+              class="search-input" 
+              placeholder="🔍 Buscar por nombre, ID, resumen..."
+            />
+            <button class="clear-btn hidden" id="clear-search">✕</button>
+          </div>
+      
+          <div class="filters-row">
+            <div class="filter-group">
+              <label>🎭 Sentimiento</label>
+              <select id="filter-sentimiento" class="filter-select">
+                <option value="">Todos</option>
+                <option value="Enojado">😠 Enojado</option>
+                <option value="Neutro">😐 Neutro</option>
+                <option value="Satisfecho">😊 Satisfecho</option>
+              </select>
+            </div>
+        
+            <div class="filter-group">
+              <label>🎯 Urgencia</label>
+              <select id="filter-urgencia" class="filter-select">
+                <option value="">Todas</option>
+                <option value="alta">🚨 Alta (8-10)</option>
+                <option value="media">⚠️ Media (5-7)</option>
+                <option value="baja">✅ Baja (1-4)</option>
+              </select>
+            </div>
+        
+            <div class="filter-group">
+              <label>📍 Estado</label>
+              <select id="filter-estado" class="filter-select">
+                <option value="">Todos</option>
+                <option value="sin_asignar">Sin asignar</option>
+                <option value="asignado">Asignado</option>
+                <option value="en_atencion">En atención</option>
+                <option value="resuelto">Resuelto</option>
+              </select>
+            </div>
+        
+            <div class="filter-group">
+              <label>📱 Canal</label>
+              <select id="filter-canal" class="filter-select">
+                <option value="">Todos</option>
+                <option value="WEBPAGE">🌐 Web</option>
+                <option value="WHATSAPP">💬 WhatsApp</option>
+                <option value="EMAIL">📧 Email</option>
+              </select>
+            </div>
+        
+            <button class="refresh-btn" id="refresh-btn" title="Refrescar">
+              🔄
+            </button>
+          </div>
+
+          <div class="priority-toggle-section">
+            <label class="priority-toggle">
+              <input type="checkbox" id="show-low-priority" />
+              <span class="toggle-text">Mostrar casos de baja prioridad</span>
+            </label>
+            <small class="toggle-hint">Por defecto se ocultan casos con score &lt; 10</small>
+          </div>
+        </div>
+
+        <!-- Lista de clientes -->
+        <div class="clientes-grid" id="clientes-grid">
+          <!-- Las cards se generarán dinámicamente aquí -->
+        </div>
+    
+        <!-- Estado vacío -->
+        <div class="empty-state hidden" id="empty-state">
+          <div class="empty-icon">📭</div>
+          <h3>No hay clientes que mostrar</h3>
+          <p>No se encontraron clientes con los filtros aplicados</p>
+        </div>
+    
+        <!-- Loading -->
+        <div class="loading-state hidden" id="loading-state">
+          <div class="spinner"></div>
+          <p>Cargando datos del monitor...</p>
+        </div>
+      </div>
+      <label class="priority-toggle">
+        <input type="checkbox" id="show-low-priority" />
+        <span class="toggle-text">Mostrar casos de baja prioridad</span>
+      </label>
+      <small class="toggle-hint">Por defecto se ocultan casos con score &lt; 10</small>
+    </div>
+  </div>
+
+  <!-- Lista de clientes -->
+  <div class="clientes-grid" id="clientes-grid">
+    <!-- Las cards se generarán dinámicamente aquí -->
+  </div>
+  
+  <!-- Estado vacío -->
+  <div class="empty-state hidden" id="empty-state">
+    <div class="empty-icon">📭</div>
+    <h3>No hay clientes que mostrar</h3>
+    <p>No se encontraron clientes con los filtros aplicados</p>
+  </div>
+  
+  <!-- Loading -->
+  <div class="loading-state hidden" id="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando datos del monitor...</p>
+  </div>
+</section>
+
+<!-- Modal de Asignación -->
+<div id="assign-modal" class="modal-overlay hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>👤 Asignar Cliente</h3>
+      <button class="modal-close" id="assign-modal-close">✕</button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="client-info">
+        <h4 id="assign-client-name">-</h4>
+        <p id="assign-client-summary">-</p>
+        <div class="client-badges">
+          <span class="badge" id="assign-client-sentiment">-</span>
+          <span class="badge" id="assign-client-urgency">-</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="assign-user-select">Asignar a:</label>
+        <select id="assign-user-select" class="modern-select">
+          <option value="">Seleccionar usuario...</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="assign-notes">Notas (opcional):</label>
+        <textarea 
+          id="assign-notes" 
+          class="modern-textarea" 
+          placeholder="Ej: Cliente prioritario, requiere atención inmediata..."
+          rows="3"
+        ></textarea>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-secondary" id="cancel-assign-btn">Cancelar</button>
+      <button class="btn-primary" id="confirm-assign-btn">Asignar</button>
+    </div>
+  </div>
+</div>

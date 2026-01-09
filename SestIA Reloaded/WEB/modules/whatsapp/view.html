@@ -1,0 +1,345 @@
+<!--
+  ===============================================
+  MÓDULO WHATSAPP - Envío Masivo de Plantillas
+  ===============================================
+-->
+
+<link rel="stylesheet" href="modules/whatsapp/styles.css" />
+
+<section id="whatsapp-module" class="wsp-layout">
+  <header class="wsp-header">
+    <div class="title-area">
+      <h2>💬 WhatsApp Masivo</h2>
+      <p>Envío de plantillas de WhatsApp Business mediante carga de CSV</p>
+    </div>
+    <div class="actions-area">
+      <button id="wsp-help" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        Ayuda
+      </button>
+    </div>
+  </header>
+
+  <div id="wsp-error" class="wsp-error hidden"><span id="wsp-error-text"></span></div>
+
+  <div class="wsp-content">
+    <!-- Panel de Configuración -->
+    <div id="wsp-config-panel" class="wsp-config-panel wsp-card">
+      <div class="card-header">
+        <h3 class="card-title">⚙️ Configuración de API</h3>
+        <p class="card-subtitle">Configura las credenciales de tu WhatsApp Business API</p>
+      </div>
+      <!-- Área de logs de carga -->
+      <div id="wsp-loading-logs" class="wsp-loading-logs" style="margin-bottom: 1rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px; font-family: monospace; font-size: 0.85rem; max-height: 150px; overflow-y: auto;"></div>
+
+      <!-- Formulario de configuración -->
+      <form id="wsp-config-form" class="wsp-form">
+        <!-- Selector de Buzón -->
+        <label class="wsp-field">
+          <span class="field-label">
+            Seleccionar buzón <span class="required">*</span>
+            <div class="tooltip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="help-icon">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              <span class="tooltip-text">Selecciona el buzón de WhatsApp configurado. Los datos de conexión se cargarán automáticamente.</span>
+            </div>
+          </span>
+          <select id="wsp-channel-selector" required>
+            <option value="">Seleccionar buzón...</option>
+          </select>
+        </label>
+
+        <!-- Título de Campaña -->
+        <label class="wsp-field">
+          <span class="field-label">
+            Título <span class="required">*</span>
+            <div class="tooltip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="help-icon">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              <span class="tooltip-text">Ingrese el título de la campaña para identificación</span>
+            </div>
+          </span>
+          <input id="wsp-campaign-title" type="text" placeholder="Ingrese el título de la campaña" required />
+        </label>
+
+        <!-- Selector dinámico de plantillas -->
+        <label class="wsp-field">
+          <span class="field-label">
+            Plantilla de WhatsApp <span class="required">*</span>
+            <div class="tooltip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="help-icon">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              <span class="tooltip-text">Selecciona la plantilla disponible en Meta para este buzón</span>
+            </div>
+          </span>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <select id="wsp-template-selector" required style="flex: 1;">
+              <option value="">Seleccionar plantilla...</option>
+            </select>
+            <button type="button" id="wsp-preview-template" class="btn btn-secondary" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              Vista previa
+            </button>
+          </div>
+        </label>
+
+        <button type="button" id="wsp-save-config" class="btn btn-primary" style="margin-top: 1rem; width: 100%; font-size: 1.1rem; padding: 1rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          <span style="margin-left: 0.5rem;">Guardar Configuración y Continuar</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Panel de Carga CSV -->
+    <div class="wsp-upload-panel wsp-card">
+      <div class="card-header">
+        <h3 class="card-title">📁 Carga de Destinatarios (CSV)</h3>
+        <p class="card-subtitle">Arrastra tu archivo o selecciona manualmente</p>
+        <button id="wsp-download-template" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Descargar Template
+        </button>
+      </div>
+      
+      <div class="wsp-upload-zone" id="wsp-drop-zone">
+        <input type="file" id="wsp-file-input" accept=".csv" hidden />
+        <div class="wsp-upload-content">
+          <div class="wsp-upload-icon">📂</div>
+          <p class="wsp-upload-text">Arrastra tu archivo CSV o haz clic para seleccionar</p>
+          <div class="wsp-upload-hint">
+            <div class="hint-item">
+              <strong>Formato:</strong> numero,cedula,estatus_servicio,variable1,variable2,[variable3..],url_imagen
+              <div class="tooltip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="help-icon">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span class="tooltip-text">
+                  <strong>Columnas del CSV:</strong><br>
+                  • numero: Teléfono con código de país (sin +) → user_id<br>
+                  • cedula: Obligatoria → cedula<br>
+                  • estatus_servicio: Obligatorio (activo|cortado|suspendido)<br>
+                  • variable1: Nombre del cliente → nombre_cliente<br>
+                  • variable2: Saldo → saldo<br>
+                  • variable3..N y columnas extra (p.ej. franquicia) → metadata<br>
+                  • url_imagen: (Opcional) URL de imagen si la plantilla lo requiere<br><br>
+                  <strong>Ejemplo:</strong><br>
+                  584121234567,12345678,ACTIVO,Juan,25.00 USD,Promo Enero,,https://imagen.jpg
+                </span>
+              </div>
+            </div>
+          </div>
+          <button type="button" id="wsp-select-file" class="btn btn-primary">Seleccionar CSV</button>
+        </div>
+      </div>
+
+      <div id="wsp-file-info" class="wsp-file-info hidden">
+        <div class="wsp-file-details">
+          <span class="wsp-file-icon">📄</span>
+          <div class="wsp-file-meta">
+            <strong id="wsp-file-name"></strong>
+            <small id="wsp-file-size"></small>
+          </div>
+        </div>
+        <button id="wsp-clear-file" class="wsp-btn ghost small">✕ Eliminar</button>
+      </div>
+
+      <div id="wsp-preview" class="wsp-preview hidden">
+        <h4 class="preview-title">Vista Previa (primeras 5 filas)</h4>
+        <div id="wsp-preview-table" class="preview-table"></div>
+        <div class="wsp-preview-actions">
+          <span id="wsp-total-rows" class="wsp-total"></span>
+          <button id="wsp-start-send-queue" class="btn btn-success" style="display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Envío con Cola (NUEVO) ⚡</span>
+            <span style="font-size: 0.7rem; background: rgba(255,255,255,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">100x más rápido</span>
+          </button>
+          <button id="wsp-start-send" class="btn btn-secondary" style="font-size: 0.85rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Envío Directo (Legacy)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel de Progreso -->
+    <div id="wsp-progress-panel" class="wsp-progress-panel wsp-card hidden">
+      <div class="card-header">
+        <h3 class="card-title">📊 Progreso del Envío</h3>
+        <p class="card-subtitle">Monitoreo en tiempo real</p>
+      </div>
+      
+      <div class="wsp-stats">
+        <div class="wsp-stat">
+          <span class="wsp-stat-value" id="wsp-stat-total">0</span>
+          <span class="wsp-stat-label">Total</span>
+        </div>
+        <div class="wsp-stat success">
+          <span class="wsp-stat-value" id="wsp-stat-success">0</span>
+          <span class="wsp-stat-label">Enviados</span>
+        </div>
+        <div class="wsp-stat danger">
+          <span class="wsp-stat-value" id="wsp-stat-failed">0</span>
+          <span class="wsp-stat-label">Fallidos</span>
+        </div>
+        <div class="wsp-stat warning">
+          <span class="wsp-stat-value" id="wsp-stat-pending">0</span>
+          <span class="wsp-stat-label">Pendientes</span>
+        </div>
+      </div>
+
+      <div class="wsp-progress-bar-container">
+        <div id="wsp-progress-bar" class="wsp-progress-bar"></div>
+      </div>
+
+      <div class="wsp-log-container">
+        <div class="wsp-log-header">
+          <span>Registro de Envíos</span>
+          <button id="wsp-export-log" class="wsp-btn ghost small">📥 Exportar Log</button>
+        </div>
+        <div id="wsp-log" class="wsp-log"></div>
+      </div>
+
+      <div class="wsp-actions-footer">
+        <button id="wsp-cancel-send" class="btn btn-danger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+          Cancelar Envío
+        </button>
+        <button id="wsp-reset" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23,4 23,10 17,10"></polyline>
+            <path d="M20.49,9A9,9,0,0,0,5.64,5.64L1,10"></path>
+          </svg>
+          Nueva Campaña
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Ayuda -->
+  <div id="wsp-help-modal" class="wsp-modal" aria-hidden="true" role="dialog">
+    <div class="wsp-modal-overlay" data-close="wsp-help-modal"></div>
+    <div class="wsp-modal-content">
+      <div class="wsp-modal-header">
+        <h3>📘 Guía de Uso - WhatsApp Masivo</h3>
+        <button class="wsp-modal-close" data-close="wsp-help-modal">✕</button>
+      </div>
+      <div class="wsp-modal-body">
+        <h4>1. Configuración de API</h4>
+        <ul>
+          <li><strong>Canal de Envío:</strong> Selecciona el canal de WhatsApp configurado en el sistema. Los datos de conexión se cargarán automáticamente.</li>
+          <li><strong>Token:</strong> Token permanente del System User de Meta (se auto-completa al seleccionar canal)</li>
+          <li><strong>Phone ID:</strong> ID del número de WhatsApp Business (se auto-completa al seleccionar canal)</li>
+          <li><strong>URL API:</strong> URL de tu middleware en Railway</li>
+          <li><strong>Plantilla:</strong> Nombre exacto de la plantilla creada en Meta</li>
+        </ul>
+
+        <h4>2. Formato del CSV</h4>
+        <pre class="wsp-code">numero,cedula,estatus_servicio,variable1,variable2,url_imagen
+      584121234567,12345678,ACTIVO,Juan,25.00 USD,https://ejemplo.com/img.jpg
+      584129876543,87654321,SUSPENDIDO,María,30.00 USD,
+      584125555555,55555555,CORTADO,Pedro,15.50 USD,https://ejemplo.com/promo.png</pre>
+
+        <h4>3. Columnas del CSV</h4>
+        <ul>
+          <li><strong>numero:</strong> Teléfono con código de país (sin +) → user_id</li>
+          <li><strong>cedula:</strong> Obligatoria → cedula</li>
+          <li><strong>estatus_servicio:</strong> activo | cortado | suspendido (mayúsculas/ minúsculas permitido)</li>
+          <li><strong>variable1:</strong> Nombre del cliente ({{1}}) → nombre_cliente</li>
+          <li><strong>variable2:</strong> Saldo ({{2}}) → saldo</li>
+          <li><strong>Extras:</strong> variable3..N y columnas adicionales (p.ej. franquicia) → metadata</li>
+          <li><strong>url_imagen:</strong> (Opcional) URL de imagen si la plantilla lo requiere</li>
+        </ul>
+
+        <h4>4. Notas Importantes</h4>
+        <ul>
+          <li>Debes tener al menos un canal de WhatsApp configurado en la tabla instancias_inputs</li>
+          <li>La plantilla debe estar ACTIVA en Meta Business Manager</li>
+          <li>Los números deben tener WhatsApp activo</li>
+          <li>El envío se realiza con delay de 2 segundos entre mensajes</li>
+          <li>Se registran los leads en BD (leads_activos) con estado "pendiente"</li>
+          <li>Puedes exportar el log al finalizar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Configuración de Mensaje -->
+  <div id="wsp-message-config-modal" class="wsp-modal" aria-hidden="true" role="dialog">
+    <div class="wsp-modal-overlay" data-close="wsp-message-config-modal"></div>
+    <div class="wsp-modal-content" style="width: 900px; max-width: 95vw;">
+      <div class="wsp-modal-header">
+        <h3>📱 Configuración del Mensaje</h3>
+        <button class="wsp-modal-close" data-close="wsp-message-config-modal">✕</button>
+      </div>
+      <div class="wsp-modal-body" style="padding: 0;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; height: 600px;">
+          <!-- Panel izquierdo: Configuración -->
+          <div style="padding: 2rem; background: var(--bg); border-right: 1px solid var(--border);">
+            <h4 style="margin: 0 0 1.5rem 0; color: var(--text); font-size: 1.1rem;">Configurar Variables</h4>
+            <div id="wsp-modal-vars" class="wsp-modal-vars"></div>
+            
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+              <button id="wsp-apply-config" class="btn btn-primary" style="width: 100%;">
+                ✓ Aplicar Configuración
+              </button>
+            </div>
+          </div>
+          
+          <!-- Panel derecho: Vista previa -->
+          <div style="padding: 2rem; background: #1a202c; color: white; display: flex; flex-direction: column;">
+            <h4 style="margin: 0 0 1.5rem 0; color: #e2e8f0; font-size: 1.1rem;">Vista Previa del Mensaje</h4>
+            
+            <!-- Simulación de WhatsApp -->
+            <div style="background: #25d366; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+              <div id="wsp-modal-header" style="margin-bottom: 0.75rem; font-size: 0.9rem; color: #dcfce7; font-weight: 600;"></div>
+              <div id="wsp-modal-body" style="white-space: pre-wrap; line-height: 1.5; font-size: 0.95rem; color: white; margin-bottom: 0.5rem;"></div>
+              <div id="wsp-modal-footer" style="font-size: 0.85rem; color: #dcfce7; font-style: italic;"></div>
+              <div style="position: absolute; bottom: 0.5rem; right: 0.75rem; font-size: 0.7rem; color: #dcfce7; opacity: 0.8;">✓✓</div>
+            </div>
+            
+            <!-- Info adicional -->
+            <div style="background: #2d3748; border-radius: 8px; padding: 1rem; font-size: 0.85rem; color: #a0aec0; flex-grow: 1;">
+              <div style="margin-bottom: 0.5rem;"><strong style="color: #e2e8f0;">Plantilla:</strong> <span id="wsp-modal-template-name"></span></div>
+              <div style="margin-bottom: 0.5rem;"><strong style="color: #e2e8f0;">Idioma:</strong> <span id="wsp-modal-template-lang"></span></div>
+              <div><strong style="color: #e2e8f0;">Categoría:</strong> <span id="wsp-modal-template-category"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

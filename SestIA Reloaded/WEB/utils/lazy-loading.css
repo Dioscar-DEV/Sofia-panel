@@ -1,0 +1,92 @@
+/* Lazy Loading Styles */
+
+/* Imagen lazy por defecto (placeholder o blur) */
+img[data-src],
+img[data-srcset] {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+  min-height: 100px; /* Evitar layout shift */
+}
+
+/* Estado de carga */
+img.loading {
+  opacity: 0.5;
+  filter: blur(5px);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Imagen cargada */
+img.loaded {
+  opacity: 1;
+  filter: blur(0);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Error al cargar */
+img.error {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  opacity: 0.7;
+  position: relative;
+}
+
+img.error::after {
+  content: '⚠️';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Fondos lazy */
+[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-color: #f0f0f0;
+  transition: background-image 0.3s ease;
+}
+
+[data-bg].loaded {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Skeleton loading para imágenes */
+img[data-src].skeleton,
+img[data-srcset].skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #e0e0e0 20%,
+    #f0f0f0 40%,
+    #f0f0f0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Responsive: reducir blur en móviles */
+@media (max-width: 768px) {
+  img.loading {
+    filter: blur(3px);
+  }
+}

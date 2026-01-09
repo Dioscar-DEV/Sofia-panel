@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="modules/sofia-dashboard/styles.css" />
+
+<section id="sofia-dashboard-module" class="sd">
+  <header class="sd-header">
+    <div class="sd-title-block">
+      <p class="sd-kicker">Dashboard Sofía</p>
+      <h2 class="sd-title"><span data-brand-name></span> • Cobros y Reportes</h2>
+      <p class="sd-subtitle">Indicadores diarios combinando pagos e incidencias reportadas.</p>
+    </div>
+    <div class="sd-actions">
+      <label class="sd-field">
+        <span>Rango</span>
+        <div class="content-area">
+          <div id="sd-content" class="sd-content hidden">
+            <div class="sd-cards" role="list">
+              <article class="sd-card" role="listitem">
+                <div class="sd-card-label">Apertura</div>
+                <div id="sd-card-aperturas" class="sd-card-value">—</div>
+                <div class="sd-card-sub" id="sd-card-aperturas-sub">Emails enviados</div>
+              </article>
+              <article class="sd-card" role="listitem">
+                <div class="sd-card-label">Lectura</div>
+                <div id="sd-card-lecturas" class="sd-card-value">—</div>
+                <div class="sd-card-sub" id="sd-card-lecturas-sub">Emails abiertos</div>
+              </article>
+              <article class="sd-card" role="listitem">
+                <div class="sd-card-label">Respuesta</div>
+                <div id="sd-card-respuestas" class="sd-card-value">—</div>
+                <div class="sd-card-sub" id="sd-card-respuestas-sub">Casos gestionados</div>
+              </article>
+              <article class="sd-card" role="listitem">
+                <div class="sd-card-label">Abonados atendidos</div>
+                <div id="sd-card-abonados" class="sd-card-value">—</div>
+                <div class="sd-card-sub">Cobros exitosos únicos</div>
+              </article>
+              <article class="sd-card" role="listitem">
+                <div class="sd-card-label">Informes a departamentos</div>
+                <div id="sd-card-informes" class="sd-card-value">—</div>
+                <div class="sd-card-sub">Reportes notificados</div>
+              </article>
+              <article class="sd-card" role="listitem">
+                <div class="sd-card-label">Cobros exitosos</div>
+                <div id="sd-card-cobros" class="sd-card-value">—</div>
+                <div class="sd-card-sub" id="sd-card-monto">Monto total</div>
+              </article>
+            </div>
+
+            <div class="sd-panels">
+              <section class="sd-panel">
+                <div class="sd-panel-header">
+                  <h3>Pagos recientes</h3>
+                  <span id="sd-pagos-count" class="sd-chip">—</span>
+                </div>
+                <div id="sd-pagos-list" class="sd-list"></div>
+              </section>
+              <section class="sd-panel">
+                <div class="sd-panel-header">
+                  <h3>Reportes recientes</h3>
+                  <span id="sd-reportes-count" class="sd-chip">—</span>
+                </div>
+                <div id="sd-reportes-list" class="sd-list"></div>
+              </section>
+            </div>
+          </div>
+        </div>
+          <span id="sd-pagos-count" class="sd-chip">—</span>
+        </div>
+        <div id="sd-pagos-list" class="sd-list"></div>
+      </section>
+      <section class="sd-panel">
+        <div class="sd-panel-header">
+          <h3>Reportes recientes</h3>
+          <span id="sd-reportes-count" class="sd-chip">—</span>
+        </div>
+        <div id="sd-reportes-list" class="sd-list"></div>
+      </section>
+    </div>
+  </div>
+</section>

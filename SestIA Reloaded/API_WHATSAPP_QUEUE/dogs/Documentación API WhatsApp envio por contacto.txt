@@ -1,0 +1,106 @@
+﻿📘 Documentación API WhatsApp 
+Esta API actúa como un intermediario (Middleware) seguro para enviar notificaciones a través de la WhatsApp Business Cloud API. Permite gestionar múltiples líneas (Phone IDs) y Tokens de forma dinámica, soportando texto variable e imágenes.
+⚙️ Configuración General
+* Base URL: https://[TU-PROYECTO-RAILWAY].up.railway.app
+* Método: POST
+* Endpoint: /enviar-mensaje
+* Content-Type: application/json
+________________
+
+
+📨 Estructura del Cuerpo (Request Body)
+El cuerpo de la solicitud debe ser un objeto JSON. Aquí se detallan todos los parámetros aceptados:
+Parámetro
+	Tipo
+	Requerido
+	Descripción
+	token
+	String
+	✅ Sí
+	El Token Permanente (System User) de Meta.
+	phone_id
+	String
+	✅ Sí
+	El ID del número de teléfono remitente.
+	numero
+	String
+	✅ Sí
+	Teléfono destino con código de país (sin +). Ej: 584121234567.
+	template_name
+	String
+	✅ Sí
+	Nombre exacto de la plantilla creada en Meta.
+	idioma
+	String
+	❌ No
+	Código de idioma. Por defecto es "es" (Español).
+	variables
+	Array
+	❌ No
+	Lista de textos para reemplazar {{1}}, {{2}}, etc. en el cuerpo del mensaje.
+	url_imagen
+	String
+	❌ No
+	Solo si la plantilla tiene Cabecera tipo Imagen. URL pública de la imagen (JPG/PNG).
+	________________
+
+
+🚀 Ejemplos de Uso
+Caso 1: Enviar plantilla simple (Sin variables)
+Ideal para mensajes genéricos o pruebas como hello_world.
+JSON
+{
+  "token": "EAAG...",
+  "phone_id": "1142...",
+  "numero": "584121234567",
+  "template_name": "hello_world",
+  "idioma": "en_US"
+}
+Caso 2: Enviar plantilla de Utilidad (Con variables de texto)
+Ejemplo: Notificación de suspensión de servicio.
+* Plantilla en Meta: Hola {{1}}, tu saldo pendiente es de {{2}}.
+JSON
+{
+  "token": "EAAG...",
+  "phone_id": "1142...",
+  "numero": "584121234567",
+  "template_name": "servicio_suspendido",
+  "variables": [
+      "David",     // Reemplaza {{1}}
+      "25.00 USD"  // Reemplaza {{2}}
+  ]
+}
+Caso 3: Enviar plantilla de Marketing (Con Imagen + Texto)
+* Requisito: La plantilla en Meta debe tener configurado Header: Imagen.
+* Plantilla en Meta: [IMAGEN] + Hola {{1}}, mira nuestra promo de {{2}} Mbps.
+JSON
+{
+  "token": "EAAG...",
+  "phone_id": "1142...",
+  "numero": "584121234567",
+  "template_name": "promo_fibra_visual",
+  "url_imagen": "https://i.imgur.com/ejemplo-fibex.jpg",
+  "variables": [
+      "Maria",    // Reemplaza {{1}}
+      "600"       // Reemplaza {{2}}
+  ]
+}
+
+________________
+⚠️ Respuestas del Servidor
+Tu API devolverá los siguientes códigos HTTP para que tu sistema sepa qué pasó:
+* 200 OK: Mensaje entregado a Meta correctamente.
+JSON
+
+{ "status": "success", "id": "wamid.HBgLM..." }
+   * 
+   * 400 Bad Request: Faltan datos obligatorios (número o nombre de plantilla).
+   * 401 Unauthorized: Faltan las credenciales (token o phone_id).
+   * 500 Internal Server Error: Error de Meta (Token inválido, plantilla no existe, número no tiene WhatsApp, etc.). El error detallado vendrá en el campo meta_error.
+________________
+
+
+📝 Notas Importantes para el Desarrollador
+   1. Validación de Plantillas: Antes de enviar, asegúrate de que la plantilla exista en el [enlace sospechoso eliminado] y tenga estado Active (Verde).
+   2. Imágenes: Si envías el campo url_imagen a una plantilla que NO tiene cabecera de imagen configurada en Meta, el envío fallará.
+   3. Seguridad: Aunque el Token viaja en el Body, asegúrate de llamar a esta API desde un entorno seguro (tu backend) y no exponerla directamente en una app móvil pública sin protección adicional.

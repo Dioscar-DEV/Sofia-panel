@@ -1,0 +1,49 @@
+# Efecto Glossy Animado en Botones
+
+Este efecto crea una barra translúcida animada que se mueve longitudinalmente sobre el botón, simulando un brillo dinámico.
+
+## ¿Cómo funciona?
+- Se usan pseudo-elementos `::after` y/o `::before` en el botón.
+- El pseudo-elemento tiene un gradiente blanco translúcido y se posiciona absolutamente sobre el botón.
+- En el estado `:hover`, el pseudo-elemento se anima (usando `transform` y `opacity`) para simular el movimiento del brillo.
+
+## Ejemplo CSS
+```css
+.boton-glossy {
+  position: relative;
+  overflow: hidden;
+}
+.boton-glossy::after {
+  content: '';
+  position: absolute;
+  top: -40%; left: -60%;
+  width: 60%; height: 180%;
+  opacity: 0.18;
+  background: linear-gradient(120deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.1) 80%, rgba(255,255,255,0) 100%);
+  border-radius: 32px;
+  z-index: 2;
+  transform: skewX(-20deg) translateX(0);
+  transition: opacity 0.3s, transform 0.7s cubic-bezier(.4,0,.2,1);
+}
+.boton-glossy:hover::after {
+  opacity: 0.32;
+  transform: skewX(-20deg) translateX(120%);
+}
+```
+
+## Implementación
+1. El botón debe tener `position: relative` y `overflow: hidden`.
+2. Añade el pseudo-elemento `::after` con el gradiente y posición inicial.
+3. En el estado `:hover`, anima el pseudo-elemento para mover el brillo.
+4. Puedes ajustar el gradiente, opacidad y velocidad para personalizar el efecto.
+
+## Ejemplo HTML
+```html
+<button class="boton-glossy">Botón Glossy Animado</button>
+```
+
+## Aplicación en el dashboard
+Para aplicar este efecto a los botones del dashboard, añade la clase `.boton-glossy` y el CSS anterior a cada botón. Si los botones ya tienen pseudo-elementos, adapta el selector para evitar conflictos.
+
+---
+Este efecto ya está implementado en las tarjetas del home y puede adaptarse fácilmente a cualquier botón o elemento rectangular.

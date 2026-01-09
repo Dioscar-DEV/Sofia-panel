@@ -1,0 +1,44 @@
+# Efecto Glossy en Botones (Fibex)
+
+Este efecto crea una apariencia brillante y moderna en los botones usando una superposición translúcida.
+
+## ¿Cómo funciona?
+- Se utiliza un pseudo-elemento `::after` sobre el botón.
+- El fondo del pseudo-elemento es un gradiente blanco translúcido.
+- El pseudo-elemento cubre todo el botón, pero no interfiere con los clics (`pointer-events: none`).
+- El gradiente y la opacidad se pueden ajustar para lograr más o menos brillo.
+
+## Ejemplo CSS
+```css
+.boton-glossy {
+  position: relative;
+  overflow: hidden;
+}
+.boton-glossy::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.08) 80%, rgba(255,255,255,0) 100%);
+  border-radius: inherit;
+  transition: opacity 0.3s;
+  opacity: 0.7;
+}
+```
+
+## Implementación
+1. Añade las clases `position: relative` y `overflow: hidden` al botón.
+2. Añade el pseudo-elemento `::after` con el gradiente y opacidad.
+3. Usa `border-radius: inherit` para que el brillo siga la forma del botón.
+4. Puedes ajustar el gradiente y la opacidad para personalizar el efecto.
+
+## Ejemplo HTML
+```html
+<button class="boton-glossy">Botón Glossy</button>
+```
+
+## Aplicación en el dashboard
+Ya está aplicado a todos los botones principales del dashboard: `.btn-refresh`, `.tab-btn`, `.btn-retry`.
+
+---
+Cualquier botón puede tener el efecto agregando la clase y el CSS anterior.

@@ -1,0 +1,523 @@
+﻿/* Fondo para áreas de contenido */
+#contacts-module .content-area {
+    position: relative;
+    min-height: 400px;
+    background: var(--fibex-blue-light);
+    border-radius: 18px;
+    box-shadow: 0 2px 8px 0 rgba(32,64,128,0.04);
+}
+/* ===============================================
+   CONTACTS MODULE
+   NAMESPACE: #contacts-module
+   =============================================== */
+
+#contacts-module {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: var(--fibex-blue-light);
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Header */
+#contacts-module .contacts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, 
+      rgba(240, 245, 255, 0.9) 0%, 
+      rgba(168, 201, 255, 0.85) 50%, 
+      rgba(90, 142, 220, 0.9) 100%);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 
+      0 4px 16px 0 rgba(11, 23, 57, 0.08),
+      0 1px 4px 0 rgba(11, 23, 57, 0.04);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInHeader 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#contacts-module .contacts-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(11, 23, 57, 0.2) 20%, 
+      rgba(59, 91, 167, 0.35) 50%, 
+      rgba(11, 23, 57, 0.2) 80%, 
+      transparent 100%);
+}
+
+@keyframes fadeInHeader {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+
+#contacts-module .header-left .module-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgba(11, 23, 57, 0.92);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#contacts-module .header-left .module-subtitle {
+    color: rgba(11, 23, 57, 0.92);
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0 0;
+}
+
+#contacts-module .header-right {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* Search Box */
+#contacts-module .contacts-search-wrapper {
+    position: relative;
+    width: 250px;
+}
+
+#contacts-module .contacts-search-wrapper input {
+    width: 100%;
+    padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    background: var(--bg);
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+#contacts-module .contacts-search-wrapper input:focus {
+    outline: none;
+    border-color: var(--fibex-blue);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+#contacts-module .contacts-search-wrapper .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+}
+
+/* Content Area */
+#contacts-module .contacts-content {
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+    min-height: 200px;
+}
+
+/* Grid Layout */
+#contacts-module .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding-bottom: 2rem;
+}
+
+/* Contact Card */
+#contacts-module .contact-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 1.25rem;
+    display: flex;
+    gap: 1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+#contacts-module .contact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--brand-light);
+}
+
+#contacts-module .card-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+}
+
+#contacts-module .card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+#contacts-module .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.25rem;
+}
+
+#contacts-module .card-name {
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1rem;
+}
+
+#contacts-module .card-channel-badge {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: var(--panel-2);
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1px solid var(--border);
+}
+
+#contacts-module .card-detail {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#contacts-module .card-meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+}
+
+#contacts-module .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+/* States */
+#contacts-module .state-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--muted);
+    text-align: center;
+    gap: 1rem;
+}
+
+#contacts-module .empty-icon {
+    font-size: 3rem;
+    opacity: 0.5;
+}
+
+#contacts-module .spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--border);
+    border-top-color: var(--brand);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Modal Specifics */
+#contacts-module .contact-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+}
+
+#contacts-module .contact-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+}
+
+#contacts-module .contact-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+#contacts-module .info-group label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+}
+
+#contacts-module .info-group p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+#contacts-module .mono-text {
+    font-family: monospace;
+    background: var(--panel-2);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.85rem !important;
+}
+
+#contacts-module .full-width {
+    grid-column: 1 / -1;
+}
+
+#contacts-module .progress-bar-container {
+    height: 8px;
+    background: var(--panel-2);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#contacts-module .progress-bar {
+    height: 100%;
+    background: var(--brand);
+    border-radius: 4px;
+}
+
+#contacts-module #modal-friendship-val {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Modal Styles */
+#contacts-module dialog {
+    border: none;
+    border-radius: 16px;
+    padding: 0;
+    background: var(--panel);
+    box-shadow: var(--shadow-lg);
+    max-width: 500px;
+    width: 90%;
+    color: var(--text);
+}
+
+#contacts-module dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+}
+
+#contacts-module .modal-content {
+    display: flex;
+    flex-direction: column;
+}
+
+#contacts-module .modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#contacts-module .modal-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+#contacts-module .modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+#contacts-module .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    background: var(--panel-2);
+}
+
+#contacts-module .close-modal-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--muted);
+    padding: 0;
+}
+
+#contacts-module .close-modal-btn:hover {
+    color: var(--text);
+}
+
+#contacts-module .btn-primary {
+    background: var(--brand);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+#contacts-module .btn-secondary {
+    background: white;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+#contacts-module .btn-secondary:hover {
+    background: var(--panel-2);
+}
+
+/* Utilities */
+#contacts-module .hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#contacts-module .badge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--panel-2);
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1px solid var(--border);
+}
+
+/* Contratos */
+#contacts-module .contracts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+#contacts-module .contract-item {
+    background: linear-gradient(135deg, #f5f8fd 0%, #e6ecfa 100%);
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#contacts-module .contract-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+#contacts-module .contract-header strong {
+    color: var(--brand);
+    font-weight: 600;
+}
+
+#contacts-module .contract-total {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 100%);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+#contacts-module .contract-services {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+#contacts-module .contract-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    background: rgba(90, 142, 220, 0.1);
+    color: var(--brand);
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 1px solid rgba(90, 142, 220, 0.2);
+}
+
+#contacts-module .contracts-list:empty::before,
+#contacts-module .contracts-list:not(:has(.contract-item))::before {
+    content: 'Sin contratos registrados';
+    color: var(--muted);
+    font-style: italic;
+}

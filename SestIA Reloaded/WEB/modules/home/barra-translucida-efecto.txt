@@ -1,0 +1,47 @@
+# Efecto de barra translúcida móvil en botones de Home (módulos)
+
+## Descripción
+Los botones principales del home de módulos presentan un efecto visual moderno que simula una barra translúcida y móvil al pasar el cursor por encima. Este efecto aporta dinamismo y profundidad, alineándose con la estética Fibex.
+
+## ¿Cómo funciona?
+- El botón utiliza un pseudo-elemento `::before` posicionado absolutamente sobre el botón.
+- Este pseudo-elemento tiene un fondo con gradiente blanco semitransparente (`rgba(255,255,255,0.25)` a `rgba(255,255,255,0.05)`) y un leve desenfoque (`backdrop-filter: blur(4px)` o similar).
+- En estado normal, la barra está desplazada hacia la izquierda o fuera de vista.
+- Al hacer hover, la barra se anima suavemente hacia la derecha, recorriendo la parte superior del botón.
+- La animación se logra con `transition` sobre la propiedad `transform`.
+
+## Ejemplo de CSS
+```css
+.btn-home {
+  position: relative;
+  overflow: hidden;
+  /* ...otros estilos... */
+}
+
+.btn-home::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 120%;
+  height: 40%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 100%);
+  border-radius: 32px 32px 0 0;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+  filter: blur(2px);
+}
+
+.btn-home:hover::before {
+  transform: translateX(60%);
+}
+```
+
+## Notas
+- El efecto puede personalizarse ajustando el gradiente, el desenfoque y la velocidad de transición.
+- Es compatible con la mayoría de navegadores modernos.
+- Aporta un look "glassmorphism" sutil y elegante.
+
+---
+
+Para modificar o reutilizar este efecto, copia el bloque CSS y ajusta los selectores según el botón o componente deseado.

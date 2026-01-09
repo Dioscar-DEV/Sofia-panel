@@ -1,0 +1,19 @@
+{
+  "name": "sofia-assistant",
+  "version": "2.0.0",
+  "description": "Sofia - Sistema Agéntico (Fibex Telecom)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

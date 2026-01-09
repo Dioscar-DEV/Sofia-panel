@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+dist
+tmp
+.DS_Store
+.env
+.env.*
+.git
+.gitignore
+.vscode
+coverage
+*.md
+assets/
+docs/
+modules/reportes/__pycache__/

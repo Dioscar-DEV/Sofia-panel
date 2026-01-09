@@ -1,0 +1,146 @@
+/* Fondo para áreas de contenido */
+#template-module .content-area {
+  position: relative;
+  min-height: 400px;
+  background: var(--fibex-blue-light);
+  border-radius: 32px;
+  box-shadow: 0 2px 8px 0 rgba(32,64,128,0.04);
+}
+/* ===============================================
+   TEMPLATE MODULE - Plantilla de Ejemplo
+   NAMESPACE: #template-module
+
+   Este archivo sigue el estándar CSS con namespace
+   para evitar conflictos con otros módulos.
+
+   REGLA: Todos los selectores DEBEN comenzar con #template-module
+   Ver: WEB/modules/CSS-STANDARDS.md
+   =============================================== */
+
+#template-module.tpl { display: block; padding: 1rem; }
+
+/* Header */
+#template-module .tpl-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+#template-module .tpl-title { margin: 0; font-size: 20px; color: rgba(11, 23, 57, 0.72); }
+#template-module .tpl-subtitle { margin: 4px 0 0; color: var(--fibex-blue-medium); }
+#template-module .tpl-actions { display: flex; gap: 8px; align-items: center; }
+#template-module .tpl-search-wrap { display: flex; gap: 6px; align-items: center; }
+#template-module .tpl-search { padding: 8px 10px; border: 1px solid var(--fibex-blue); border-radius: 8px; background: var(--fibex-blue-light); color: var(--fibex-blue); }
+
+/* Botones */
+#template-module .tpl-btn { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--fibex-blue); background: var(--fibex-blue-accent); color: var(--fibex-white); cursor: pointer; transition: all 0.2s; }
+#template-module .tpl-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+#template-module .tpl-btn.primary { background: var(--fibex-blue); color: var(--fibex-white); border-color: var(--fibex-blue); }
+#template-module .tpl-btn.ghost { background: transparent; }
+
+/* Estados */
+#template-module .tpl-loading { padding: 16px; color: var(--muted); }
+#template-module .tpl-error {
+  padding: 12px 14px;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.08);
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+/* Grid */
+#template-module .tpl-content { }
+#template-module .tpl-grid { display: grid; grid-template-columns: 320px 1fr; gap: 16px; }
+#template-module .tpl-list-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+#template-module .tpl-detail-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+#template-module .tpl-empty { color: var(--muted); padding: 24px; text-align: center; }
+
+/* Lista */
+#template-module .tpl-list { display: grid; gap: 8px; }
+#template-module .tpl-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  background: var(--panel);
+  transition: all 0.2s;
+}
+#template-module .tpl-item:hover { transform: translateX(2px); box-shadow: var(--shadow-sm); }
+#template-module .tpl-item.active { outline: 2px solid var(--brand); outline-offset: 2px; }
+#template-module .tpl-item-title { font-weight: 600; color: var(--text); }
+#template-module .tpl-item-sub { color: var(--muted); font-size: 12px; }
+
+/* Detalle */
+#template-module .tpl-detail-title { margin: 0 0 6px; }
+#template-module .tpl-detail-meta { color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+#template-module .tpl-detail-desc { margin-top: 8px; line-height: 1.5; }
+#template-module .tpl-detail-empty { color: var(--muted); padding: 24px; text-align: center; }
+
+/* Branding */
+#template-module .tpl-brand-block { display:flex; align-items:center; gap:8px; margin-top:12px; }
+#template-module .tpl-logo { height:20px; width:20px; object-fit:contain; border-radius:4px; }
+#template-module .tpl-brand-chip {
+  padding:4px 8px;
+  border-radius:8px;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 100%);
+  color:#fff;
+  font-size:12px;
+  font-weight:600;
+}
+
+/* Modal (requiere ID específico porque está fuera del namespace) */
+#tpl-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+#tpl-modal.active { display: flex; }
+#tpl-modal .tpl-modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); }
+#tpl-modal .tpl-modal-content {
+  position: relative;
+  background: var(--panel);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  width: 520px;
+  max-width: calc(100% - 24px);
+  padding: 16px;
+  box-shadow: var(--shadow-md);
+}
+#tpl-modal .tpl-modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+#tpl-modal .tpl-modal-close { background: transparent; border: none; font-size: 18px; cursor: pointer; color: var(--muted); transition: color 0.2s; }
+#tpl-modal .tpl-modal-close:hover { color: var(--text); }
+
+/* Formularios */
+#tpl-modal .tpl-form { display: grid; gap: 10px; }
+#tpl-modal .tpl-field { display: grid; gap: 6px; }
+#tpl-modal .tpl-field > span { color: var(--muted); font-size: 12px; font-weight: 600; }
+#tpl-modal .tpl-form input,
+#tpl-modal .tpl-form textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  transition: all 0.2s;
+}
+#tpl-modal .tpl-form input:focus,
+#tpl-modal .tpl-form textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+#tpl-modal .tpl-form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
+
+/* Utilidades */
+#template-module .hidden { display: none !important; }
+
+/* Responsive */
+@media (max-width: 900px){
+  #template-module .tpl-grid { grid-template-columns: 1fr; }
+  #template-module .tpl-header { flex-direction: column; align-items: stretch; gap: 12px; }
+  #template-module .tpl-actions { justify-content: space-between; }
+}
+
+@media (max-width: 640px){
+  #template-module.tpl { padding: 0.75rem; }
+  #template-module .tpl-search-wrap { flex: 1; }
+}

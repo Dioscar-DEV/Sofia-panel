@@ -1,0 +1,110 @@
+<div id="contacts-module" class="module-container fade-in">
+    <header class="contacts-header">
+        <div class="header-left">
+            <h2 class="module-title">
+                <span class="icon">📇</span> Contactos del Agente
+            </h2>
+            <p class="module-subtitle">Gestión de usuarios que interactúan con el agente IA</p>
+        </div>
+        <div class="header-right">
+            <div class="contacts-search-wrapper">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-icon">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="contacts-search-input" placeholder="Buscar contacto..." autocomplete="off">
+            </div>
+            <button id="contacts-refresh-btn" class="btn-secondary" title="Recargar lista">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 4v6h-6"></path>
+                    <path d="M1 20v-6h6"></path>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="contacts-content">
+        <div id="contacts-loading" class="state-message">
+            <div class="spinner"></div>
+            <p>Cargando contactos...</p>
+        </div>
+
+        <div id="contacts-empty" class="state-message hidden">
+            <div class="empty-icon">👥</div>
+            <h3>No hay contactos</h3>
+            <p>Aún no hay registros de interacción con el agente.</p>
+        </div>
+
+        <div id="contacts-grid" class="contacts-grid hidden">
+            <!-- Las tarjetas se inyectarán aquí -->
+        </div>
+    </div>
+
+    <!-- Modal de Detalles del Contacto -->
+    <dialog id="contacts-detail-modal" class="contacts-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3 id="modal-contact-name">Detalles del Contacto</h3>
+                <button class="close-modal-btn" id="contacts-modal-close">&times;</button>
+            </header>
+            <div class="modal-body">
+                <div class="contact-profile-header">
+                    <div class="contact-avatar-large" id="modal-avatar">AB</div>
+                    <div class="contact-main-info">
+                        <h2 id="modal-nickname">Nickname</h2>
+                        <span class="badge" id="modal-channel">Channel</span>
+                    </div>
+                </div>
+                
+                <div class="contact-info-grid">
+                    <div class="info-group">
+                        <label>Nombre Real</label>
+                        <p id="modal-realname">-</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Teléfono</label>
+                        <p id="modal-phone">-</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Email</label>
+                        <p id="modal-email">-</p>
+                    </div>
+                    <div class="info-group">
+                        <label>User ID</label>
+                        <p id="modal-userid" class="mono-text">-</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Verificado</label>
+                        <p id="modal-verified">-</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Último Método de Pago</label>
+                        <p id="modal-payment-method">-</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Nivel Amistad</label>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="modal-friendship-bar" style="width: 0%"></div>
+                            <span id="modal-friendship-val">0</span>
+                        </div>
+                    </div>
+                    <div class="info-group full-width">
+                        <label>Contratos Activos</label>
+                        <div id="modal-contracts" class="contracts-list">-</div>
+                    </div>
+                    <div class="info-group full-width">
+                        <label>Última Interacción</label>
+                        <p id="modal-last-seen">-</p>
+                    </div>
+                </div>
+            </div>
+            <footer class="modal-footer">
+                <button class="btn-primary" id="modal-chat-btn" style="display: none; align-items: center; gap: 0.5rem;">
+                    <span>💬</span> Ver Chat
+                </button>
+                <button class="btn-secondary" id="contacts-modal-close-btn">Cerrar</button>
+            </footer>
+        </div>
+    </dialog>
+</div>

@@ -1,0 +1,6 @@
+numero,cedula,estatus_servicio,variable1,variable2,url_imagen
+584121234567,12345678,ACTIVO,Juan Pérez,25.00 USD,https://i.imgur.com/ejemplo1.jpg
+584129876543,87654321,SUSPENDIDO,María López,30.00 USD,
+584125555555,55555555,CORTADO,Pedro García,15.50 USD,https://i.imgur.com/ejemplo2.jpg
+584141111111,11111111,ACTIVO,Ana Martínez,45.00 USD,
+584142222222,22222222,SUSPENDIDO,Carlos Rodríguez,20.00 USD,https://i.imgur.com/ejemplo3.jpg

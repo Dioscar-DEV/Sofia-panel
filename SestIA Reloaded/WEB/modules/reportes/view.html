@@ -1,0 +1,169 @@
+<link rel="stylesheet" href="modules/reportes/styles.css" />
+<section class="rep">
+  <header class="rep-header">
+    <div class="rep-title-wrap">
+      <h2 class="rep-title">📋 <span data-brand-name></span> • Reportes</h2>
+      <p class="rep-subtitle">Sistema integral de gestión de tickets y reportes ciudadanos</p>
+    </div>
+  </header>
+
+  <!-- KPIs -->
+  <section class="rep-kpis">
+    <div class="rep-kpi">
+      <div class="rep-kpi-icon">📊</div>
+      <div class="rep-kpi-label">Total</div>
+      <div class="rep-kpi-value" id="rep-kpi-total">0</div>
+    </div>
+    <div class="rep-kpi">
+      <div class="rep-kpi-icon">⏳</div>
+      <div class="rep-kpi-label">Pendientes</div>
+      <div class="rep-kpi-value" id="rep-kpi-pendientes">0</div>
+    </div>
+    <div class="rep-kpi">
+      <div class="rep-kpi-icon">⚙️</div>
+      <div class="rep-kpi-label">En Progreso</div>
+      <div class="rep-kpi-value" id="rep-kpi-progreso">0</div>
+    </div>
+    <div class="rep-kpi">
+      <div class="rep-kpi-icon">✅</div>
+      <div class="rep-kpi-label">Resueltos</div>
+      <div class="rep-kpi-value" id="rep-kpi-resueltos">0</div>
+    </div>
+  </section>
+
+  <!-- Filtros -->
+  <section class="rep-filters">
+    <div class="rep-filters-grid">
+      <label class="rep-filter" for="rep-search">
+        <span>Buscar</span>
+        <input id="rep-search" type="text" class="rep-filter-input" placeholder="Buscar por título, descripción..." autocomplete="off" />
+      </label>
+      
+      <label class="rep-filter" for="rep-filter-id">
+        <span>ID</span>
+        <input id="rep-filter-id" type="number" class="rep-filter-input" placeholder="Ej: 123" autocomplete="off" />
+      </label>
+      
+      <label class="rep-filter" for="rep-filter-estado">
+        <span>Estado</span>
+        <select id="rep-filter-estado" class="rep-filter-input" autocomplete="off">
+          <option value="">Todos</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="en_proceso">En Progreso</option>
+          <option value="resuelto">Resuelto</option>
+          <option value="cerrado">Cerrado</option>
+          <option value="rechazado">Rechazado</option>
+        </select>
+      </label>
+      
+      <label class="rep-filter" for="rep-filter-categoria">
+        <span>Categoría</span>
+        <select id="rep-filter-categoria" class="rep-filter-input" autocomplete="off">
+          <option value="">Todas</option>
+        </select>
+      </label>
+      
+      <label class="rep-filter" for="rep-filter-periodo">
+        <span>Período</span>
+        <select id="rep-filter-periodo" class="rep-filter-input" autocomplete="off">
+          <option value="">Todos los períodos</option>
+          <option value="hoy">Hoy</option>
+          <option value="ayer">Ayer</option>
+          <option value="ultimos7">Últimos 7 días</option>
+          <option value="ultimos30">Últimos 30 días</option>
+          <option value="este_mes">Este mes</option>
+          <option value="mes_pasado">Mes pasado</option>
+          <option value="custom">Rango personalizado</option>
+        </select>
+      </label>
+      
+      <label class="rep-filter rep-filter-custom-dates hidden" for="rep-filter-desde">
+        <span>Desde</span>
+        <input id="rep-filter-desde" type="date" class="rep-filter-input" autocomplete="off" />
+      </label>
+      
+      <label class="rep-filter rep-filter-custom-dates hidden" for="rep-filter-hasta">
+        <span>Hasta</span>
+        <input id="rep-filter-hasta" type="date" class="rep-filter-input" autocomplete="off" />
+      </label>
+      
+      <label class="rep-filter" id="rep-filter-user-wrap" for="rep-filter-user" style="display:none;">
+        <span>Usuario asignado</span>
+        <select id="rep-filter-user" class="rep-filter-input" autocomplete="off">
+          <option value="">Todos</option>
+        </select>
+      </label>
+      
+      <div class="rep-filter-actions">
+        <button id="rep-search-btn" type="button" class="rep-btn primary">Buscar</button>
+        <button id="refresh-reports-help" type="button" class="rep-btn">Refrescar</button>
+        <button id="clear-filters-help" type="button" class="rep-btn ghost">Limpiar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenedor Principal -->
+  <div id="rep-loading" class="rep-loading hidden">
+    <div class="rep-spinner"></div>
+    <p>Cargando reportes...</p>
+  </div>
+
+  <div id="rep-error" class="rep-error hidden">
+    <p id="rep-error-text"></p>
+  </div>
+
+  <div id="rep-content" class="rep-content">
+    <div class="rep-layout">
+      <!-- Lista -->
+      <aside class="rep-sidebar">
+        <div id="rep-list" class="rep-list"></div>
+        <div id="rep-empty" class="rep-empty hidden">
+          <p>No hay reportes para mostrar</p>
+        </div>
+        <div id="rep-pagination" class="rep-pagination"></div>
+      </aside>
+
+      <!-- Detalle -->
+      <main class="rep-main">
+        <div id="rep-detail" class="rep-detail hidden">
+          <div class="rep-detail-header">
+            <div>
+              <h3 id="rep-detail-title" class="rep-detail-title"></h3>
+              <p id="rep-detail-meta" class="rep-detail-meta"></p>
+            </div>
+            <div id="rep-actions-bar" class="rep-actions-bar hidden"></div>
+          </div>
+          
+          <div id="rep-tags" class="rep-tags"></div>
+
+          <section class="rep-section">
+            <h4 class="rep-section-title">Información Básica</h4>
+            <div id="rep-basic" class="rep-basic"></div>
+          </section>
+
+          <section class="rep-section">
+            <h4 class="rep-section-title">Evidencias</h4>
+            <div id="rep-evidencias" class="rep-evidencias"></div>
+          </section>
+
+          <section class="rep-section">
+            <h4 class="rep-section-title">Historial</h4>
+            <div id="rep-historial" class="rep-historial"></div>
+          </section>
+
+          <section class="rep-section">
+            <h4 class="rep-section-title">Contratos del Usuario</h4>
+            <div id="rep-contratos" class="rep-contratos"></div>
+          </section>
+        </div>
+
+        <div id="rep-detail-empty" class="rep-detail-empty">
+          <p>Selecciona un reporte para ver los detalles</p>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+
+

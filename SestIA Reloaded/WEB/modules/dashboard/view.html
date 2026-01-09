@@ -1,0 +1,404 @@
+<link rel="stylesheet" href="modules/dashboard/styles.css" />
+<section id="dashboard-module">
+  <!-- Header con filtros -->
+  <div class="dashboard-header">
+    <div class="header-left">
+      <h2>Dashboard</h2>
+      <p>Resumen de metricas del sistema</p>
+    </div>
+    <div class="header-right">
+      <!-- Filtro de periodo -->
+      <div class="period-filter">
+        <select id="dashboard-period-select" class="period-select">
+          <option value="all">Todo el tiempo</option>
+          <option value="today">Hoy</option>
+          <option value="7days" selected>Ultimos 7 dias</option>
+          <option value="30days">Ultimos 30 dias</option>
+          <option value="thisMonth">Este mes</option>
+          <option value="lastMonth">Mes anterior</option>
+          <option value="custom">Personalizado</option>
+        </select>
+      </div>
+      <!-- Fechas personalizadas -->
+      <div id="custom-dates" class="custom-dates hidden">
+        <input type="date" id="date-from" class="date-input" />
+        <span>a</span>
+        <input type="date" id="date-to" class="date-input" />
+      </div>
+      <!-- Boton actualizar -->
+      <button id="dashboard-refresh-btn" class="btn-refresh" title="Actualizar datos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs de navegacion -->
+  <div class="dashboard-tabs">
+    <button class="tab-btn active" data-tab="resumen">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+      </svg>
+      Resumen
+    </button>
+    <button class="tab-btn" data-tab="reportes">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>
+      Reportes
+    </button>
+    <button class="tab-btn" data-tab="pagos">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="1" x2="12" y2="23"/>
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+      Pagos
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div id="dashboard-loading" class="dashboard-loading">
+    <div class="loading-spinner"></div>
+    <p>Cargando metricas...</p>
+  </div>
+
+  <!-- Error State -->
+  <div id="dashboard-error" class="dashboard-error hidden">
+    <div class="error-icon">!</div>
+    <h3>Error al cargar datos</h3>
+    <p id="dashboard-error-msg">No se pudieron obtener las metricas.</p>
+    <button id="dashboard-retry-btn" class="btn-retry">Reintentar</button>
+  </div>
+
+  <!-- ==================== TAB: RESUMEN ==================== -->
+  <div id="tab-resumen" class="tab-content active">
+    <!-- KPI Cards principales -->
+    <div class="kpi-grid main-kpis">
+      <div class="kpi-card highlight">
+        <div class="kpi-icon reportes-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="kpi-total-reportes">--</span>
+          <span class="kpi-label">Total Reportes</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-purple">
+        <div class="kpi-icon pagos-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="kpi-total-pagos">--</span>
+          <span class="kpi-label">Total Pagos</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-yellow">
+        <div class="kpi-icon monto-bs-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+            <path d="M12 18V6"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="kpi-monto-ves">--</span>
+          <span class="kpi-label">Recaudado Bs.</span>
+          <span class="kpi-sublabel" id="kpi-cantidad-ves">-- pagos</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-green">
+        <div class="kpi-icon monto-usd-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="kpi-monto-usd">--</span>
+          <span class="kpi-label">Recaudado USD</span>
+          <span class="kpi-sublabel" id="kpi-cantidad-usd">-- pagos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs secundarios -->
+    <div class="kpi-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="kpi-card small highlight-teal">
+        <div class="kpi-icon-small email-sent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="kpi-emails-enviados">--</span>
+          <span class="kpi-label">Emails Enviados</span>
+        </div>
+      </div>
+
+      <div class="kpi-card small highlight-green">
+        <div class="kpi-icon-small email-opened">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            <path d="m16 19 2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="kpi-emails-abiertos">--</span>
+          <span class="kpi-label">Emails Abiertos</span>
+        </div>
+      </div>
+
+      <div class="kpi-card small highlight-purple">
+        <div class="kpi-icon-small conversaciones-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="kpi-conversaciones">--</span>
+          <span class="kpi-label">Conversaciones</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graficas y Rankings -->
+    <div class="charts-grid">
+      <!-- Grafica de Dona - Pagos por Metodo -->
+      <div class="chart-card">
+        <h4>Pagos por Metodo</h4>
+        <div id="chart-pagos-metodo" class="chart-container"></div>
+        <div id="stats-pagos-metodo" class="percentage-stats"></div>
+      </div>
+
+      <!-- Ranking por Institucion -->
+      <div class="chart-card">
+        <h4>Top Instituciones por Volumen</h4>
+          <div id="ranking-instituciones" class="ranking-list">
+            <span class="ranking-name" title="Data no capturada">Data no capturada</span>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== TAB: REPORTES ==================== -->
+  <div id="tab-reportes" class="tab-content">
+    <div class="section-title">
+      <h3>Metricas de Reportes</h3>
+    </div>
+
+    <div class="kpi-grid main-kpis">
+      <div class="kpi-card highlight">
+        <div class="kpi-icon reportes-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="rep-total">--</span>
+          <span class="kpi-label">Total Reportes</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-teal">
+        <div class="kpi-icon email-sent">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="rep-emails-enviados">--</span>
+          <span class="kpi-label">Emails Enviados</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-green">
+        <div class="kpi-icon email-opened">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            <path d="m16 19 2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="rep-emails-abiertos">--</span>
+          <span class="kpi-label">Emails Abiertos</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-purple">
+        <div class="kpi-icon tasa-apertura">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="rep-tasa-apertura">--%</span>
+          <span class="kpi-label">Tasa de Apertura</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 50%;">
+      <div class="kpi-card">
+        <div class="kpi-icon anonimos">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8 15s1.5 2 4 2 4-2 4-2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/>
+            <line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="rep-anonimos">--</span>
+          <span class="kpi-label">Reportes Anonimos</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-pink">
+        <div class="kpi-icon notificados">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="rep-notificados">--</span>
+          <span class="kpi-label">Notificados</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graficas -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h4>Reportes por Estado</h4>
+        <div id="chart-rep-estado" class="chart-container"></div>
+        <div id="stats-rep-estado" class="percentage-stats"></div>
+      </div>
+
+      <div class="chart-card">
+        <h4>Reportes por Departamento</h4>
+        <div id="chart-rep-departamento" class="chart-container"></div>
+        <div id="stats-rep-departamento" class="percentage-stats"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: PAGOS ==================== -->
+  <div id="tab-pagos" class="tab-content">
+    <div class="section-title">
+      <h3>Metricas de Pagos</h3>
+    </div>
+
+    <!-- KPIs principales - 5 tarjetas del mismo tamaño -->
+    <div class="kpi-grid" style="grid-template-columns: repeat(5, 1fr);">
+      <div class="kpi-card highlight-purple">
+        <div class="kpi-icon pagos-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="pag-total">--</span>
+          <span class="kpi-label">Total Pagos</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-yellow">
+        <div class="kpi-icon monto-bs-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+            <path d="M12 18V6"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="pag-monto-ves">--</span>
+          <span class="kpi-label">Total Bolivares</span>
+          <span class="kpi-sublabel" id="pag-cantidad-ves">-- pagos</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-green">
+        <div class="kpi-icon monto-usd-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="pag-monto-usd">--</span>
+          <span class="kpi-label">Total Dolares</span>
+          <span class="kpi-sublabel" id="pag-cantidad-usd">-- pagos</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-teal">
+        <div class="kpi-icon verificados-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="pag-verificados">--</span>
+          <span class="kpi-label">Verificados</span>
+        </div>
+      </div>
+
+      <div class="kpi-card highlight-orange">
+        <div class="kpi-icon pendientes-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-value" id="pag-pendientes">--</span>
+          <span class="kpi-label">Pendientes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graficas de pagos - 3 graficas -->
+    <div class="charts-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="chart-card">
+        <h4>Distribucion por Metodo</h4>
+        <div id="chart-pagos-metodo-tab" class="chart-container"></div>
+        <div id="stats-pagos-metodo-tab" class="percentage-stats"></div>
+      </div>
+
+      <div class="chart-card">
+        <h4>Distribucion por Tipo</h4>
+        <div id="chart-pagos-tipo" class="chart-container"></div>
+        <div id="stats-pagos-tipo" class="percentage-stats"></div>
+      </div>
+
+      <div class="chart-card">
+        <h4>Distribucion por Moneda</h4>
+        <div id="chart-pagos-moneda" class="chart-container"></div>
+        <div id="stats-pagos-moneda" class="percentage-stats"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="dashboard-footer">
+    <span>Ultima actualizacion: <span id="dashboard-last-update">--</span></span>
+  </div>
+</section>
